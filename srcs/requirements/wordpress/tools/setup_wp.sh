@@ -1,22 +1,14 @@
-#!bin/bash/
 
-#	Download wordpress compressed file, decompress it,
-#	move the dir to the right emplacement and delete .tar file
-mv wordpress/ /var/www/
-rm latest.tar.gz
-
-mv /tmp/wp-config.php /var/www/wordpress
-chown -R www-data:www-data /var/www/wordpress/
-
-#	Set up daemonize to 'no' in the php-fpm.conf so i can run it properly after
-
-echo $MYSQL_DATABASE
-echo $MYSQL_USER
-echo $MYSQL_PASSWORD
-sed -i -e "s|MYSQL_DATABASE|'$MYSQL_DATABASE'|g" /var/www/wordpress/wp-config.php
-sed -i -e "s|MYSQL_USER|'$MYSQL_USER'|g" /var/www/wordpress/wp-config.php
-sed -i -e "s|MYSQL_PASSWORD|'$MYSQL_PASSWORD'|g" /var/www/wordpress/wp-config.php
-sed -i -e "s|;daemonize = yes|daemonize = no|g" /etc/php/7.3/fpm/php-fpm.conf
-mkdir -p /run/php/
-
-exec /usr/sbin/php-fpm7.3
+sleep 8;
+if  [ ! -f /var/www/wordpress/wp-config.php ]; then 
+    
+    wp core --allow-root download --locale=fr_FR --force 
+    sleep 5;
+    while  [ ! -f /var/www/wordpress/wp-config.php ]; do
+        wp core config --allow-root --dbname=wordpress --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=mariadb:3306
+    done 
+    wp core install --allow-root --url='kkim.42.fr' --title='WordPress for Inception' --admin_user=admin --admin_password=password  --admin_email="admin@admin.fr" --path='/var/www/wordpress';
+    wp  user create --allow-root kkim user2@user.com --user_pass=0096 --role=author
+    wp theme install --allow-root dark-mode --activate     
+fi 
+php-fpm7.3 --nodaemonize
