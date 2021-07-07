@@ -14,8 +14,8 @@ then
 	echo "Please change file settings as yours. (setup.sh and docker-compose.yml)"
 	exit
 fi
-sudo echo "127.0.0.1 kkim.42.fr" >> /etc/hosts
-sudo echo "127.0.0.1 www.kkim.42.fr" >> /etc/hosts
+#sudo echo "127.0.0.1 kkim.42.fr" >> /etc/hosts
+#sudo echo "127.0.0.1 www.kkim.42.fr" >> /etc/hosts
 echo -ne $YEL$BOL"Do you want to remove previous data and boot? "$NOR$BLU"(y/n) : "$CYA$BOL
 old_stty_cfg=$(stty -g)
 stty raw -echo ; answer=$(head -c 1) ; stty $old_stty_cfg
