@@ -3,46 +3,11 @@ FROM		debian:buster
 COPY		./tools/setup_wp.sh /tmp
 COPY		./conf/wp-config.php /tmp
 
-RUN			apt-get update
-RUN			apt-get install \
-				php7.3-common \
-				php7.3-mysql \
-				php7.3-gmp \
-				php7.3-curl \ 
-				php7.3-intl \
-				php7.3-mbstring \
-				php7.3-xmlrpc \
-				php7.3-gd \
-				php7.3-xml \
-				php7.3-cli \
-				php7.3-zip \
-				php7.3-soap \
-				php7.3-imap \
-				php7.3-fpm \
-				wget \
-				curl \
-				openssl \
-				sendmail \ 
-				mariadb-client \
-				vim \
-				procps; 
-				
-RUN			wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN			chmod +x wp-cli.phar
-RUN			mv wp-cli.phar /usr/local/bin/wp 
-RUN			echo "listen = 9000" >> /etc/php/7.3/fpm/pool.d/www.conf
-RUN			echo "access.log = /var/log/$pool.access.log" >> /etc/php/7.3/fpm/pool.d/www.conf
-RUN			mkdir -p /var/www/wordpress 
-RUN			chown -R  www-data:www-data /var/www/wordpress/
-RUN			chmod 777 /var/www/wordpress/
-RUN			mkdir -p /run/php/
-COPY		tools/setup.sh /
-RUN			chmod 777 /setup.sh
-WORKDIR		/var/www/wordpress
-
-# RUN			echo "listen = 9000" >> /etc/php/7.3/fpm/pool.d/www.conf \
-# 		&& curl -LO https://wordpress.org/latest.tar.gz \
-# 		&& tar xzvf latest.tar.gz
+RUN			apt-get update \
+		&& apt-get install php-fpm php-mysql curl dumb-init tar -y \
+		&& echo "listen = 9000" >> /etc/php/7.3/fpm/pool.d/www.conf \
+		&& curl -LO https://wordpress.org/latest.tar.gz \
+		&& tar xzvf latest.tar.gz
 
 ENTRYPOINT ["/usr/bin/dumb-init"]
 

@@ -1,32 +1,38 @@
-_COLOR	=	\033[1;94m
-_RESET			=	\033[0m
+_LAV			=	\033[36m
+_BOL			=	\033[1m
+_RES			=	\033[0m
 
 
-COMPOSE_FILE = ./srcs/docker-compose.yml
+SRCS			=	srcs/
+REQU			=	srcs/requirements
+YAML			=	srcs/docker-compose.yml
+#SETU			=	srcs/requirements/tools/setup.sh
 
-all		:	up
+all: up
 
-up		:
-			@ docker-compose -f $(COMPOSE_FILE) up -d --build
-			@ sleep 5
-			@ echo "$(_COLOR)Containers are now built and running.$(_RESET)"
+up:
+	@ echo "$(_LAV)$(_BOL)test$(_RES)"
+	@ echo "$(_LAV)test$(_RES)"
+	@ docker-compose -f $(YAML) up -d --build
+	@ sleep 5
+	@ echo "$(_LAV)$(_BOL)[COMPLETE!] Containers are now built and running.$(_RES)"
 
-stop	:
-			@ docker-compose -f $(COMPOSE_FILE) stop
-			@ echo "$(_COLOR)Containers have been stopped.$(_RESET)"
+stop:
+	@ docker-compose -f $(YAML) stop
+	@ echo "$(_LAV)$(_BOL)Containers are now stop.$(_RES)"
 
-down	:
-			@ docker-compose -f $(COMPOSE_FILE) down
-			@ echo "$(_COLOR)Containers are now down.$(_RESET)"
+down:
+	@ docker-compose -f $(YAML) down
+	@ echo "$(_LAV)$(_BOL)Containers are now downed. (stop + delete)$(_RES)"
 
-start	:
-			@ docker-compose -f $(COMPOSE_FILE) start
-			@ sleep 5
-			@ echo "$(_COLOR)Containers are now running.$(_RESET)"
+ps:
+	@ docker-compose -f $(YAML) ps
 
-ps		:
-			@ docker-compose -f $(COMPOSE_FILE) ps
+re:	stop up
 
-re		:	stop up
+# clean: down
+# 	@docker system prune
+# 	@docker volume rm srcs_db_vol
+# 	@docker volume rm srcs_wp_vol
 
-.PHONY:		all up stop down start ps re
+.PHONY:	all setup up stop down ps re
