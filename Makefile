@@ -11,8 +11,6 @@ YAML			=	srcs/docker-compose.yml
 all: up
 
 up:
-	@ echo "$(_LAV)$(_BOL)test$(_RES)"
-	@ echo "$(_LAV)test$(_RES)"
 	@ docker-compose -f $(YAML) up -d --build
 	@ sleep 5
 	@ echo "$(_LAV)$(_BOL)[COMPLETE!] Containers are now built and running.$(_RES)"

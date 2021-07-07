@@ -20,7 +20,7 @@ echo -ne $YEL$BOL"Do you want to remove previous data and boot? "$NOR$BLU"(y/n) 
 old_stty_cfg=$(stty -g)
 stty raw -echo ; answer=$(head -c 1) ; stty $old_stty_cfg
 if echo "$answer" | grep -iq "^y" ;then
-	echo -e "[Yes]\n"$NOR
+	echo -e "[Yes]"$NOR
 	echo -e "----------------------------------------------"
 	echo -e $YEL$BOL"[Removing `/home/kkim/data` folder's Contents]"$NOR
 	sudo rm -rf /home/kkim/data/wp
