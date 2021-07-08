@@ -6,7 +6,7 @@ _RES			=	\033[0m
 SRCS			=	srcs/
 REQU			=	srcs/requirements
 YAML			=	srcs/docker-compose.yml
-#SETU			=	srcs/requirements/tools/setup.sh
+SETU			=	srcs/requirements/tools/setup.sh
 
 all: up
 
