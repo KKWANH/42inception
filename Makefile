@@ -22,16 +22,11 @@ stop:
 down:
 	@ docker-compose -f $(YAML) down
 	@ bash $(CLEA)
-	@ echo "$(_LAV)$(_BOL)Containers are now downed. (stop + delete)$(_RES)"
+	@ echo "$(_LAV)$(_BOL)Containers are now downed. (stop + delete volume, data)$(_RES)"
 
 ps:
 	@ docker-compose -f $(YAML) ps
 
 re:	stop up
-
-# clean: down
-# 	@docker system prune
-# 	@docker volume rm srcs_db_vol
-# 	@docker volume rm srcs_wp_vol
 
 .PHONY:	all setup up stop down ps re
