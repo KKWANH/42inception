@@ -6,7 +6,7 @@ _RES			=	\033[0m
 SRCS			=	srcs/
 REQU			=	srcs/requirements
 YAML			=	srcs/docker-compose.yml
-SETU			=	srcs/requirements/tools/setup.sh
+CLEA			=	srcs/requirements/tools/clear.sh
 
 all: up
 
@@ -21,6 +21,7 @@ stop:
 
 down:
 	@ docker-compose -f $(YAML) down
+	@ bash $(CLEA)
 	@ echo "$(_LAV)$(_BOL)Containers are now downed. (stop + delete)$(_RES)"
 
 ps:
